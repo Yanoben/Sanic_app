@@ -1,6 +1,10 @@
 from databases import Database
 from sanic import Sanic
 from sanic.response import json
+# from sqlalchemy.sql import select
+# from sqlalchemy.views import CreateView, DropView
+
+from table import products, users, checkes
 
 app = Sanic("sanic_app")
 
@@ -18,8 +22,22 @@ def setup_database():
 
 
 @app.route('/')
-async def test(request):
-    return json({'hello': 'world'})
+async def index(request):
+    return json({
+        'hello': 'world'
+    })
+
+
+@app.route('/products')
+async def get_products(request):
+    query = products.all()
+    return json({
+        'query': type(query)
+    })
+    # rows = await request.app.fetch_all(query)
+    # return json({
+    #     'products': [{row['title']: row['title']} for row in rows]
+    # })
 
 
 # @app.get("/products")
